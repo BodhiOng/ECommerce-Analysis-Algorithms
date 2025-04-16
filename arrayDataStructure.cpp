@@ -28,7 +28,7 @@ private:
     Transaction* data; // Pointer to the dynamic array
     int capacity; // Current capacity of the array
     int size; // Current number of elements in the array
-
+//test
     // Method to resize the array when it runs out of space
     void resize() {
         if (capacity <= 0) {
