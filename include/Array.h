@@ -3,59 +3,86 @@
 
 template <typename T>
 class Array {
-private:
-    T* data;
-    int capacity;
-    int size;
+    private:
+        T* data;
+        int capacity;
+        int size;
 
-    void resize(int newCapacity) {
-        T* newData = new T[newCapacity];
-        for (int i = 0; i < size; i++) {
-            newData[i] = data[i];
+        void resize(int newCapacity) {
+            T* newData = new T[newCapacity];
+            for (int i = 0; i < size; i++) {
+                newData[i] = data[i];
+            }
+            delete[] data;
+            data = newData;
+            capacity = newCapacity;
         }
-        delete[] data;
-        data = newData;
-        capacity = newCapacity;
-    }
 
-public:
-    Array(int initialCapacity = 10) : capacity(initialCapacity), size(0) {
-        data = new T[capacity];
-    }
-
-    ~Array() {
-        delete[] data;
-    }
-
-    void push_back(const T& element) {
-        if (size == capacity) {
-            resize(capacity * 2);
+    public:
+        Array(int initialCapacity = 10) : capacity(initialCapacity), size(0) {
+            data = new T[capacity];
         }
-        data[size++] = element;
-    }
 
-    T& operator[](int index) {
-        if (index < 0 || index >= size) {
-            throw std::out_of_range("Index out of bounds");
+        // Copy constructor
+        Array(const Array& other) : capacity(other.capacity), size(other.size) {
+            data = new T[capacity];
+            for (int i = 0; i < size; i++) {
+                data[i] = other.data[i];
+            }
         }
-        return data[index];
-    }
 
-    const T& operator[](int index) const {
-        if (index < 0 || index >= size) {
-            throw std::out_of_range("Index out of bounds");
+        ~Array() {
+            delete[] data;
         }
-        return data[index];
-    }
 
-    int getSize() const { return size; }
+        void push_back(const T& element) {
+            if (size == capacity) {
+                resize(capacity * 2);
+            }
+            data[size++] = element;
+        }
 
-    // Quick sort implementation
-    void quickSort(int (*compare)(const T&, const T&)) {
-        quickSortHelper(0, size - 1, compare);
-    }
+        T& operator[](int index) {
+            if (index < 0 || index >= size) {
+                throw std::out_of_range("Index out of bounds");
+            }
+            return data[index];
+        }
 
-private:
+        const T& operator[](int index) const {
+            if (index < 0 || index >= size) {
+                throw std::out_of_range("Index out of bounds");
+            }
+            return data[index];
+        }
+
+        int getSize() const { return size; }
+
+        // Copy assignment operator
+        Array& operator=(const Array& other) {
+            if (this != &other) {
+                // Delete old data
+                delete[] data;
+                
+                // Copy from other
+                size = other.size;
+                capacity = other.capacity;
+                data = new T[capacity];
+                
+                // Copy elements
+                for (int i = 0; i < size; i++) {
+                    data[i] = other.data[i];
+                }
+            }
+            return *this;
+        }
+
+        // Quick sort implementation
+        void quickSort(int (*compare)(const T&, const T&)) {
+            quickSortHelper(0, size - 1, compare);
+        }
+
+    private:
     void quickSortHelper(int low, int high, int (*compare)(const T&, const T&)) {
         if (low < high) {
             int pi = partition(low, high, compare);
