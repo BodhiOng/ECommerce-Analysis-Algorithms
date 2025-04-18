@@ -2,7 +2,6 @@
 #define DATA_STRUCTURES_H
 
 #include <string>
-#include "Array.h"
 
 struct Review {
     std::string productId;

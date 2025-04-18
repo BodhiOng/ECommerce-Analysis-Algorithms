@@ -1,5 +1,5 @@
-#ifndef DATA_ANALYZER_H
-#define DATA_ANALYZER_H
+#ifndef ARRAY_DATA_ANALYZER_H
+#define ARRAY_DATA_ANALYZER_H
 
 #include <string>
 #include <sstream>
@@ -8,7 +8,7 @@
 #include "Array.h"
 #include "DataStructures.h"
 
-class DataAnalyzer {
+class arrayDataAnalyzer {
 private:
     Array<Transaction> transactions;
     Array<Review> reviews;
@@ -48,31 +48,21 @@ public:
         reviews.push_back(review);
     }
 
-    // Sort transactions by date
-    void sortTransactionsByDate() {
-        transactions.quickSort(compareTransactionsByDate);
-    }
-
-    // Filter transactions by category
-    Array<Transaction> filterByCategory(const std::string& category) {
-        Array<Transaction> filtered;
-        for (int i = 0; i < transactions.getSize(); i++) {
-            if (toLowerCase(transactions[i].category) == toLowerCase(category)) {
-                filtered.push_back(transactions[i]);
+    // Linear search for word frequency counting
+    void linearSearch(const Array<std::string>& words, Array<WordFrequency>& frequencies) {
+        for (int j = 0; j < words.getSize(); j++) {
+            bool found = false;
+            for (int k = 0; k < frequencies.getSize(); k++) {
+                if (frequencies[k].word == words[j]) {
+                    frequencies[k].frequency++;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                frequencies.push_back(WordFrequency(words[j], 1));
             }
         }
-        return filtered;
-    }
-
-    // Filter transactions by payment method
-    Array<Transaction> filterByPaymentMethod(const std::string& method) {
-        Array<Transaction> filtered;
-        for (int i = 0; i < transactions.getSize(); i++) {
-            if (toLowerCase(transactions[i].paymentMethod) == toLowerCase(method)) {
-                filtered.push_back(transactions[i]);
-            }
-        }
-        return filtered;
     }
 
     // Analyze negative reviews (1-star ratings)
@@ -84,21 +74,7 @@ public:
         for (int i = 0; i < reviews.getSize(); i++) {
             if (reviews[i].rating == 1) {
                 Array<std::string> words = splitIntoWords(reviews[i].reviewText);
-                
-                // Count word frequencies
-                for (int j = 0; j < words.getSize(); j++) {
-                    bool found = false;
-                    for (int k = 0; k < wordFrequencies.getSize(); k++) {
-                        if (wordFrequencies[k].word == words[j]) {
-                            wordFrequencies[k].frequency++;
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        wordFrequencies.push_back(WordFrequency(words[j], 1));
-                    }
-                }
+                linearSearch(words, wordFrequencies);
             }
         }
 

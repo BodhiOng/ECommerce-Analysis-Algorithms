@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "include/DataAnalyzer.h"
+#include "include/arrayDataAnalyzer.h"
 
 // Helper function to split CSV line
 Array<std::string> splitCSV(const std::string& line) {
@@ -20,7 +20,7 @@ Array<std::string> splitCSV(const std::string& line) {
 }
 
 int main() {
-    DataAnalyzer analyzer;
+    arrayDataAnalyzer analyzer;
 
     // Read transactions
     std::ifstream transFile("transactions_cleaned.csv");
