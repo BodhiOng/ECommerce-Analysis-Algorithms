@@ -5,4 +5,4 @@
 run_cpp.bat
 
 # Build
-build
+build/
