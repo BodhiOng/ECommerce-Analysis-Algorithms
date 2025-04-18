@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <stack>
 #include "Array.h"
 #include "DataStructures.h"
 
@@ -38,6 +39,40 @@ private:
     }
 
 public:
+    // Quick sort implementation
+    template<typename T>
+    void quickSort(Array<T>& array, int (*compare)(const T&, const T&)) {
+        if (array.getSize() <= 1) return;
+        
+        std::stack<std::pair<int, int>> stack;
+        stack.push({0, array.getSize() - 1});
+
+        while (!stack.empty()) {
+            int low = stack.top().first;
+            int high = stack.top().second;
+            stack.pop();
+
+            if (low < high) {
+                T pivot = array[high];
+                int i = low - 1;
+
+                for (int j = low; j < high; j++) {
+                    if (compare(array[j], pivot) <= 0) {
+                        i++;
+                        std::swap(array[i], array[j]);
+                    }
+                }
+                std::swap(array[i + 1], array[high]);
+
+                int pi = i + 1;
+                
+                // Push right subarray first, then left
+                stack.push({pi + 1, high});
+                stack.push({low, pi - 1});
+            }
+        }
+    }
+
     // Add transaction to the array
     void addTransaction(const Transaction& transaction) {
         transactions.push_back(transaction);
@@ -67,9 +102,6 @@ public:
 
     // Analyze negative reviews (1-star ratings)
     void analyzeNegativeReviews() {
-        // Reset word frequencies
-        wordFrequencies = Array<WordFrequency>();
-        
         // Process each review
         for (int i = 0; i < reviews.getSize(); i++) {
             if (reviews[i].rating == 1) {
@@ -79,7 +111,7 @@ public:
         }
 
         // Sort word frequencies
-        wordFrequencies.quickSort(compareWordFrequency);
+        quickSort(wordFrequencies, compareWordFrequency);
     }
 
     // Get top N frequent words
