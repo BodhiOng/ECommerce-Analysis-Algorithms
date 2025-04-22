@@ -17,7 +17,7 @@ private:
         data = newData;
         capacity = newCapacity;
     }
-
+    
 public:
     Array(int initialCapacity = 10) : capacity(initialCapacity), size(0) {
         data = new T[capacity];
