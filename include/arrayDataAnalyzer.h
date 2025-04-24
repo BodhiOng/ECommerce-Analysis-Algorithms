@@ -9,7 +9,7 @@
 #include "Array.h"
 #include "DataStructures.h"
 
-class arrayDataAnalyzer {
+class ArrayDataAnalyzer {
 private:
     Array<Transaction> transactions;
     Array<Review> reviews;
