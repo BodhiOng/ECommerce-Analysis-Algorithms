@@ -30,7 +30,7 @@ private:
         for (size_t i = 0; i <= text.length(); i++) {
             if (i == text.length() || std::isspace(text[i])) {
                 if (i > start) {
-                    word = text.substr(start, i - start);
+                    word = text.substr(start, i - start); 
                     // Remove punctuation manually
                     std::string clean;
                     for (char c : word) {
