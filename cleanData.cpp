@@ -358,7 +358,7 @@ int main() {
         // Count commas to find fields
         int commaCount = 0;
         int commaPositions[10] = {0};
-        for (int i = 0; i < strlen(lineCopy); i++) {
+        for (size_t i = 0; i < strlen(lineCopy); i++) {
             if (lineCopy[i] == ',' && commaCount < 10) {
                 commaPositions[commaCount++] = i;
             }
@@ -398,7 +398,7 @@ int main() {
         
         // Check if rating is numeric and in range
         bool isValidRating = true;
-        for (int i = 0; i < strlen(rating); i++) {
+        for (size_t i = 0; i < strlen(rating); i++) {
             if (!isdigit(rating[i])) {
                 isValidRating = false;
                 break;
@@ -416,7 +416,7 @@ int main() {
         
         // Check if review text contains quotes (field 3)
         bool hasQuotedReviewText = false;
-        for (int i = commaPositions[2] + 1; i < strlen(lineCopy); i++) {
+        for (size_t i = commaPositions[2] + 1; i < strlen(lineCopy); i++) {
             if (lineCopy[i] == '"') {
                 hasQuotedReviewText = true;
                 break;
